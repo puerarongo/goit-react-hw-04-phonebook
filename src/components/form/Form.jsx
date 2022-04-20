@@ -5,7 +5,7 @@ const Form = ({ submit }) => {
     const [name, setName] = useState("");
     const [number, setNumber] = useState("");
 
-
+    // todo Function
     const inputHandler = e => {
         const { name, value } = e.currentTarget;
 
@@ -27,7 +27,6 @@ const Form = ({ submit }) => {
     setName("");
     setNumber("");
   };
-
 
     return (
         <div className={styles.container}>

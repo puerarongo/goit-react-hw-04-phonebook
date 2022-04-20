@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect} from "react";
 import Form from "./form/Form";
 import Filter from "./filter/Filter";
 import ContactList from "./contactList/ContactList";
@@ -8,33 +8,43 @@ import { nanoid } from 'nanoid';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 
 
-class App extends Component {
-  state = {
-    contacts: [],
-    filter: ''
-  };
+const App = () => {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState("");
 
 
-  // ! Life Cycle (added)
-  componentDidMount() {
+
+  useEffect(() => {
     const localContacts = JSON.parse(localStorage.getItem("contacts"));
-    if (localContacts) {
-      this.setState({ contacts: localContacts });
-    }
-  };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+    if (localContacts) {
+      console.log("2")
+      setContacts(localContacts);
     }
-  };
-  // ! (added)
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts])
+
+
+ //componentDidMount() {
+ //  const localContacts = JSON.parse(localStorage.getItem("contacts"));
+ //  if (localContacts) {
+ //    this.setState({ contacts: localContacts });
+ //  }
+ //};
+
+ //componentDidUpdate(prevProps, prevState) {
+ //  if (this.state.contacts !== prevState.contacts) {
+ //    localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+ //  }
+ //  
 
 
   //todo Function
-
-  formSubmitHandler = (name, number) => {
-    const nameArr = this.state.contacts.map(elem => elem.name)
+  const formSubmitHandler = (name, number) => {
+    const nameArr = contacts.map(elem => elem.name)
     if (nameArr.includes(name)) {
       return Report.failure(
         "Failure",
@@ -42,41 +52,32 @@ class App extends Component {
         "Try again"
       );
     };
-
-    this.setState(prevState => ({
-      contacts:
-        [{ id: nanoid(), name: name, number: number }, ...prevState.contacts]
-    }) );
+    setContacts([{ id: nanoid(), name: name, number: number }, ...contacts])
   };
+
+
+  const filterHandler = e => {
+    setFilter(e.currentTarget.value)
+  };
+
+  const filtred = contacts.filter(elem => elem.name.toLowerCase().includes(filter.toLowerCase()) );
 
 // !
-  filterHandler = (e) => { this.setState({ filter: e.currentTarget.value }) };
-
-// !
-  deleteComponent = (id) => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter((elem) => elem.id !== id)
-    }) );
+  const deleteComponent = id => {
+    setContacts(contacts.filter((elem) => elem.id !== id))
   };
 
 
-  
-  //todo Render()
-  render() {
-    const { contacts, filter } = this.state;
-    const filtred = contacts.filter(elem => { return elem.name.toLowerCase().includes(filter.toLowerCase()) });
-    
-    return (
-      <div>
-        <h1>Phonebook</h1>
-        <Form submit={this.formSubmitHandler}/>
+  return (
+    <div>
+      <h1>Phonebook</h1>
+      <Form submit={formSubmitHandler}/>
 
-        <h2>Contacts</h2>
-        <Filter filter={filter} change={this.filterHandler}/>
-        <ContactList contacts={filtred} deleteById={this.deleteComponent}/>
-      </div>
-    )
-  };
+      <h2>Contacts</h2>
+      <Filter filter={filter} change={filterHandler}/>
+      <ContactList contacts={filtred} deleteById={deleteComponent}/>
+    </div>
+  )
 };
 
 export default App;
