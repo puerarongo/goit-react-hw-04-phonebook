@@ -9,37 +9,14 @@ import { Report } from 'notiflix/build/notiflix-report-aio';
 
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    JSON.parse(localStorage.getItem("contacts")) || []
+  );
   const [filter, setFilter] = useState("");
-
-
-
-  useEffect(() => {
-    const localContacts = JSON.parse(localStorage.getItem("contacts"));
-
-    if (localContacts) {
-      console.log("2")
-      setContacts(localContacts);
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts])
-
-
- //componentDidMount() {
- //  const localContacts = JSON.parse(localStorage.getItem("contacts"));
- //  if (localContacts) {
- //    this.setState({ contacts: localContacts });
- //  }
- //};
-
- //componentDidUpdate(prevProps, prevState) {
- //  if (this.state.contacts !== prevState.contacts) {
- //    localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
- //  }
- //  
 
 
   //todo Function
@@ -62,7 +39,7 @@ const App = () => {
 
   const filtred = contacts.filter(elem => elem.name.toLowerCase().includes(filter.toLowerCase()) );
 
-// !
+
   const deleteComponent = id => {
     setContacts(contacts.filter((elem) => elem.id !== id))
   };
