@@ -33,19 +33,19 @@ class App extends Component {
 
   //todo Function
 
-  formSubmitHandler = (stateData) => {
+  formSubmitHandler = (name, number) => {
     const nameArr = this.state.contacts.map(elem => elem.name)
-    if (nameArr.includes(stateData.name)) {
+    if (nameArr.includes(name)) {
       return Report.failure(
         "Failure",
-        `${stateData.name} is already in contacts!`,
+        `${name} is already in contacts!`,
         "Try again"
       );
     };
 
     this.setState(prevState => ({
       contacts:
-        [{ id: nanoid(), name: stateData.name, number: stateData.number }, ...prevState.contacts]
+        [{ id: nanoid(), name: name, number: number }, ...prevState.contacts]
     }) );
   };
 
@@ -59,21 +59,13 @@ class App extends Component {
     }) );
   };
 
-  filterFunc = () => {
-    const normalizedFilter = this.state.filter.toLowerCase();
-
-    return this.state.contacts.filter(elem =>
-      elem.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
 
   
   //todo Render()
   render() {
-    const { filter } = this.state;
-    ///const filtered = contacts.filter(elem => { return elem.name.toLowerCase().includes(filter.toLowerCase()) });
-    const filtred = this.filterFunc();
+    const { contacts, filter } = this.state;
+    const filtred = contacts.filter(elem => { return elem.name.toLowerCase().includes(filter.toLowerCase()) });
+    
     return (
       <div>
         <h1>Phonebook</h1>
