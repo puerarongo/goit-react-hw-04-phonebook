@@ -1,0 +1,37 @@
+.container {
+    display: inline-block;
+    width: 350px;
+    padding: 20px;
+    margin-bottom: 30px;
+
+    font-size: 24px;
+    border: 1px solid rgb(27, 27, 27);
+}
+
+.form__title {
+    display: block;
+}
+
+.input__form {
+    display: block;
+    width: 300px;
+
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+.form__button {
+    padding: 6px 10px;
+    font-size: 18px;
+    cursor: pointer;
+    background: rgb(240, 224, 224);
+    color: rgb(8, 8, 8);
+    border-radius: 5px;
+    border: 1px solid rgb(27, 27, 27);
+}
+
+.form__button:hover,
+.form__button:active {
+    color: rgb(240, 224, 224);
+    background-color: rgb(210, 15, 15);
+}

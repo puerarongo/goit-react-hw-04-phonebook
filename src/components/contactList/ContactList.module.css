@@ -1,0 +1,30 @@
+.container {
+    font-size: 24px;
+}
+
+.contact {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+}
+
+.contact:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+
+.button__delete {
+    padding: 6px 10px;
+    font-size: 18px;
+    cursor: pointer;
+    background: rgb(240, 224, 224);
+    color: rgb(8, 8, 8);
+    border-radius: 5px;
+    border: 1px solid rgb(27, 27, 27);
+}
+
+.button__delete:hover,
+.button__delete:active {
+    color: rgb(240, 224, 224);
+    background-color: rgb(210, 15, 15);
+}
